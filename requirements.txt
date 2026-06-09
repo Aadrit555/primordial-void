@@ -1,0 +1,1 @@
+﻿gymnasium\nnumpy\nscipy\nnetworkx\nmatplotlib\nseaborn\ntorch\nstable-baselines3\nwandb\npyyaml\n

@@ -1,0 +1,30 @@
+﻿ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  clip_range: 0.2
+  total_timesteps: 500000
+
+training:
+  seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  eval_episodes: 100
+  log_interval: 1000
+
+intent_model:
+  hidden_size: 64
+  learning_rate: 0.001
+  epochs: 50
+  train_trajectories: 200
+
+gap_score:
+  epsilon: 1e-8
+
+gridworld:
+  size: 8
+  max_steps: 200
+  exploit_cell: [3, 4]
+  start: [0, 0]
+  goal: [7, 7]
+  step_penalty: -0.01
