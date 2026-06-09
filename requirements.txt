@@ -1,1 +1,9 @@
-﻿gymnasium\nnumpy\nscipy\nnetworkx\nmatplotlib\nseaborn\ntorch\nstable-baselines3\nwandb\npyyaml\n
+﻿gymnasium>=0.29.0
+torch>=2.0.0
+stable-baselines3>=2.0.0
+wandb>=0.16.0
+matplotlib>=3.7.0
+scipy>=1.11.0
+networkx>=3.1.0
+numpy>=1.24.0
+pyyaml>=6.0
