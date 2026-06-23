@@ -333,5 +333,3 @@ Primordial Void is designed to find the problems hidden inside the solutions.
 The goal is not to build an agent that wins.
 
 The goal is to build an agent that reveals where reality diverges from expectation.
-
-This version sounds like something you'd see from a research lab, a DARPA proposal, or an early startup whitepaper. It focuses on the fundamental idea ("intent vs reality") rather than getting stuck on mazes, PPO, or exploits. That's usually what makes people remember a project.
