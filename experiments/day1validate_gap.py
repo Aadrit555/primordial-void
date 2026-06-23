@@ -102,7 +102,7 @@ def run_validation():
 
     # ── Step 1: Generate trajectories ──────────────────────────────
     print("\n[1/5] Generating trajectories...")
-    datasets = generate_datasets(n_correct=200, n_exploit=200, verbose=True)
+    datasets = generate_datasets(n_correct=1433, n_exploit=1432, verbose=True)
     correct_trajs = datasets["correct"]
     exploit_trajs = datasets["exploit"]
 
@@ -111,7 +111,7 @@ def run_validation():
     intent_model = IntentModel(obs_dim=66, action_dim=4, hidden_size=64)
     loss_history = intent_model.train_on_trajectories(
         correct_trajs,
-        epochs=50,
+        epochs=1000,
         learning_rate=1e-3,
         verbose=True,
     )
@@ -194,3 +194,4 @@ def run_validation():
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     run_validation()
+    

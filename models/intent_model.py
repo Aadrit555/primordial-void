@@ -78,7 +78,7 @@ class IntentModel(nn.Module):
     def train_on_trajectories(
         self,
         trajectories: list,
-        epochs: int = 50,
+        epochs: int = 1000,
         learning_rate: float = 1e-3,
         batch_size: int = 64,
         verbose: bool = True,
@@ -123,7 +123,7 @@ class IntentModel(nn.Module):
             loss_history.append(avg_loss)
 
             if verbose and (epoch + 1) % 10 == 0:
-                print(f"  Epoch {epoch+1:3d}/{epochs} — Loss: {avg_loss:.4f}")
+                print(f"  Epoch {epoch+1:3d}/{epochs} — Loss: {avg_loss:.8f}")
 
         return loss_history
 

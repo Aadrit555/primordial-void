@@ -23,6 +23,23 @@ from models.intent_model import IntentModel
 EPSILON = 1e-8
 
 
+def compute_step_kl(observation: np.ndarray, action: int, intent_model: IntentModel) -> float:
+    """
+    Compute the KL divergence for a SINGLE (observation, action) pair.
+
+    This is the per-step building block used by compute_gap_score_sequence,
+    extracted here so the reward wrapper can call it directly without
+    constructing trajectory lists — keeps RL training O(1) per step
+    instead of O(n) per step / O(n^2) per episode.
+    """
+    Q = intent_model.get_action_probs(observation).astype(np.float64)
+    Q = np.clip(Q, EPSILON, 1.0)
+
+    # P is one-hot on the taken action
+    # KL(P || Q) = sum(P * log(P/Q)) = 1 * log(1 / Q[action])  (only nonzero term)
+    return float(np.log(1.0 / Q[action]))
+
+
 def compute_gap_score(trajectory: list, intent_model: IntentModel) -> float:
     """
     Compute the mean intent gap score for a full trajectory.
@@ -54,19 +71,7 @@ def compute_gap_score_sequence(trajectory: list, intent_model: IntentModel) -> l
     kl_values = []
 
     for (obs, action) in trajectory:
-        # Q: intent model's probability distribution over actions
-        Q = intent_model.get_action_probs(obs).astype(np.float64)
-        Q = np.clip(Q, EPSILON, 1.0)   # avoid log(0)
-
-        # P: agent's one-hot distribution (certainty on the taken action)
-        action_dim = len(Q)
-        P = np.zeros(action_dim, dtype=np.float64)
-        P[action] = 1.0
-
-        # KL divergence: KL(P || Q) = sum(P * log(P / Q))
-        # Only the term where P[i] > 0 contributes (0 * log(0) = 0)
-        kl = float(P[action] * np.log(P[action] / Q[action]))
-        kl_values.append(kl)
+        kl_values.append(compute_step_kl(obs, action, intent_model))
 
     return kl_values
 

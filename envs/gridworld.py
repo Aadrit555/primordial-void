@@ -146,10 +146,16 @@ class GridWorld(gym.Env):
         curr_state = tuple(self.agent_pos)
         self._transition_counts[(prev_state, curr_state)] += 1
 
-        # Reward
+        # Reward — deliberately decoupled from path length.
+        # Both the 23-step exploit path and the 29-step normal path give
+        # IDENTICAL total reward (0 until goal, then +1). This means a
+        # raw-reward-maximizing agent (Agent A) has NO incentive to find
+        # the shortcut — only the gap-reward agent (Agent B), which is
+        # rewarded for diverging from the intent model, should be drawn
+        # to the exploit cell.
         self.steps += 1
         at_goal = tuple(self.agent_pos) == self.goal_pos
-        reward = 1.0 if at_goal else self.step_penalty
+        reward = 1.0 if at_goal else 0.0
         terminated = at_goal
         truncated = self.steps >= self.max_steps
 
